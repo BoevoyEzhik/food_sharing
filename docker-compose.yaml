@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: postgres:14.6
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: user
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+    volumes:
+      - .:/docker-entrypoint-initdb.d
