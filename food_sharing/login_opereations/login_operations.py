@@ -1,8 +1,7 @@
 import hashlib
 import os
 import re
-from data_base.users_db import select_password_from_users
-from flask import request
+from food_sharing.data_base.users_db import select_password_from_users
 import base64
 
 

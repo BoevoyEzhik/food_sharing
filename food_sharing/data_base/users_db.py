@@ -1,5 +1,5 @@
 import psycopg2
-from data_base.db_config import db_name, user, password, host
+from food_sharing.data_base.db_config import db_name, user, password, host
 import datetime
 
 
