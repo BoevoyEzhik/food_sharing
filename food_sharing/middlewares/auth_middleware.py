@@ -2,9 +2,6 @@ from flask import request, make_response, Response
 from food_sharing.login_opereations.cookie import is_valid_cookie
 
 
-SECRET_KEY = 'my_secret_key'
-
-
 def auth_middleware(func):
     def wrapper():
         cookie = request.cookies.get('name')

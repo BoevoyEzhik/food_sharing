@@ -2,12 +2,11 @@ import hmac
 import hashlib
 import base64
 
-
-SECRET_KEY = 'my_secret_key'
+from food_sharing.config import config
 
 
 def sign_data(data: str) -> str:
-    return hmac.new(SECRET_KEY.encode(),
+    return hmac.new(config.session_secret_key.encode(),
                     msg=data.encode(),
                     digestmod=hashlib.sha256
                     ).hexdigest().upper()
