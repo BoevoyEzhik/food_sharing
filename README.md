@@ -4,7 +4,6 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-green)
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0%2B-lightgrey)
 ![Pytest](https://img.shields.io/badge/Pytest-7.0%2B-yellow)
-![License](https://img.shields.io/badge/License-MIT-orange)
 
 Учебный REST API проект для освоения многослойной архитектуры сервера и работы с FastAPI.
 
