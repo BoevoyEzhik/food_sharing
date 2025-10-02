@@ -16,7 +16,7 @@ class Token:
     @staticmethod
     async def create_jwt_token(data: dict) -> str:
         to_encode = data.copy()
-        expire = datetime.now() + timedelta(days=float(ACCESS_TOKEN_EXPIRE_DAYS))  # type: ignore[arg-type] # noqa E501
+        expire = int((datetime.now() + timedelta(days=float(ACCESS_TOKEN_EXPIRE_DAYS))).timestamp())  # type: ignore[arg-type] # noqa E501
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(payload=to_encode, key=SECRET_KEY, algorithm=ALGORITHM)
         return encoded_jwt
