@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 from unittest.mock import patch
 
-from app.core.jwt_tokens import Token, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_DAYS
-
 import jwt
+
+from app.core.jwt_tokens import ACCESS_TOKEN_EXPIRE_DAYS, ALGORITHM, SECRET_KEY, Token
 
 
 async def test_create_jwt_token_with_valid_data():
@@ -35,8 +35,10 @@ async def test_create_jwt_token_with_empty_data():
 async def test_create_jwt_token_expiration_calculation():
     test_data = {"user_id": 123}
 
-    with patch('app.core.jwt_tokens.datetime') as mock_datetime, \
-            patch('app.core.jwt_tokens.jwt.encode') as mock_encode:
+    with (
+        patch("app.core.jwt_tokens.datetime") as mock_datetime,
+        patch("app.core.jwt_tokens.jwt.encode") as mock_encode,
+    ):
 
         fixed_now = datetime(2025, 1, 1, 12, 0, 0)
         mock_datetime.now.return_value = fixed_now
@@ -44,7 +46,9 @@ async def test_create_jwt_token_expiration_calculation():
         await Token.create_jwt_token(test_data)
 
         call_args = mock_encode.call_args
-        payload = call_args[1]['payload']
+        payload = call_args[1]["payload"]
 
-        expected_exp = int((fixed_now + timedelta(days=float(ACCESS_TOKEN_EXPIRE_DAYS))).timestamp())
-        assert payload['exp'] == expected_exp
+        expected_exp = int(
+            (fixed_now + timedelta(days=float(ACCESS_TOKEN_EXPIRE_DAYS))).timestamp()
+        )
+        assert payload["exp"] == expected_exp

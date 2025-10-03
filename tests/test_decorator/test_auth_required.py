@@ -1,4 +1,4 @@
-from unittest.mock import AsyncMock, patch
+from unittest.mock import patch
 
 import pytest
 from fastapi import HTTPException, Request
@@ -10,7 +10,7 @@ async def test_auth_required_success(mock_request):
     fake_token = "valid.token.here"
     mock_request.headers = {"Authorization": f"Bearer {fake_token}"}
 
-    with patch('app.core.jwt_tokens.Token.get_user_info_from_token') as mocked_token:
+    with patch("app.core.jwt_tokens.Token.get_user_info_from_token") as mocked_token:
         mocked_token.return_value = 1234
 
         @auth_required

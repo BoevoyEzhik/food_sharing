@@ -1,17 +1,19 @@
+from datetime import datetime, timedelta
 from unittest.mock import patch
 
+import jwt
 import pytest
 from fastapi import HTTPException
 
-from app.core.jwt_tokens import Token, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_DAYS
-from datetime import datetime, timedelta
+from app.core.jwt_tokens import ACCESS_TOKEN_EXPIRE_DAYS, ALGORITHM, SECRET_KEY, Token
 
-import jwt
-
-payload = {"user_id": 123,
-           "username": "testuser",
-           'exp': int((datetime.now() + timedelta(days=float(ACCESS_TOKEN_EXPIRE_DAYS))).timestamp())
-           }
+payload = {
+    "user_id": 123,
+    "username": "testuser",
+    "exp": int(
+        (datetime.now() + timedelta(days=float(ACCESS_TOKEN_EXPIRE_DAYS))).timestamp()  # type: ignore[arg-type] # noqa E501
+    ),
+}
 
 
 async def test_get_user_info_from_token_with_valid_data():
@@ -23,7 +25,7 @@ async def test_get_user_info_from_token_with_valid_data():
 
 
 async def test_get_user_info_from_token_invalid_token():
-    token = jwt.encode(payload=payload, key='SECRET_KEY', algorithm=ALGORITHM)
+    token = jwt.encode(payload=payload, key="SECRET_KEY", algorithm=ALGORITHM)
 
     with pytest.raises(HTTPException) as exc_info:
         await Token.get_user_info_from_token(token)
@@ -35,10 +37,10 @@ async def test_get_user_info_from_token_invalid_token():
 async def test_get_user_info_from_token_expired():
     expired_payload = {
         "user_id": "12345",
-        "exp": (datetime.now() - timedelta(days=1)).timestamp()
+        "exp": (datetime.now() - timedelta(days=1)).timestamp(),
     }
 
-    with patch('app.core.jwt_tokens.jwt.decode') as mock_decode:
+    with patch("app.core.jwt_tokens.jwt.decode") as mock_decode:
         mock_decode.return_value = expired_payload
 
         with pytest.raises(HTTPException) as exc_info:
